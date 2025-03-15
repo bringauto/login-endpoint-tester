@@ -1,0 +1,6 @@
+{
+  "login_url": "https://api.dev.bringautofleet.com/v2/management/login",
+  "redirect_url": "https://api.dev.bringautofleet.com/v2/management/token_get**",
+  "username": "your_username",
+  "password": "your_password"
+}
