@@ -23,10 +23,17 @@ def run(playwright, config: Config):
     page.fill("input[name='password']", config.password)
     with page.expect_navigation() as response_info:
         page.click("button[id='kc-login']")
-    page.wait_for_url(config.redirect_url, timeout=5000)
+    try:
+        page.wait_for_url(config.redirect_url, timeout=5000)
+    except:
+        print("[error] Login failed! Timeout!")
+        exit(1)
     response = response_info.value
     if response.status != 200:
-        print("[error] Login failed")
+        print("[error] Login failed!")
+        exit(2)
+    else:
+        print("[info] Login success!")
     browser.close()
 
 with sync_playwright() as playwright:
