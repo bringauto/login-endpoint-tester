@@ -17,3 +17,5 @@ COPY test_login.py /app/test_login.py
 
 # Set the working directory
 WORKDIR /app
+
+CMD ["python", "test_login.py"]
