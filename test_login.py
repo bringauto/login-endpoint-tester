@@ -18,15 +18,15 @@ def run(playwright, config: Config):
     browser = playwright.chromium.launch(headless=True)
     context = browser.new_context()
     page = context.new_page()
-    page.goto(config.login_url)
-    page.fill("input[name='username']", config.username)
-    page.fill("input[name='password']", config.password)
-    with page.expect_navigation() as response_info:
-        page.click("button[id='kc-login']")
     try:
-        page.wait_for_url(config.redirect_url, timeout=5000)
+        page.goto(config.login_url)
+        page.fill("input[name='username']", config.username)
+        page.fill("input[name='password']", config.password)
+        with page.expect_navigation() as response_info:
+            page.click("button[id='kc-login']")
+            page.wait_for_url(config.redirect_url, timeout=5000)
     except:
-        print("[error] Login failed! Timeout!")
+        print("[ERROR] Login failed! Timeout!")
         exit(1)
     response = response_info.value
     if response.status != 200:
