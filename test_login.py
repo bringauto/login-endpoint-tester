@@ -30,10 +30,10 @@ def run(playwright, config: Config):
         exit(1)
     response = response_info.value
     if response.status != 200:
-        print("[error] Login failed!")
+        print("[ERROR] Login failed!")
         exit(2)
     else:
-        print("[info] Login success!")
+        print("[INFO] Login success!")
     browser.close()
 
 with sync_playwright() as playwright:
