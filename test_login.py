@@ -1,6 +1,6 @@
 import json
 
-from playwright.sync_api import sync_playwright, expect
+from playwright.sync_api import sync_playwright, expect # type: ignore
 
 CONFIG_PATH = "config/config.json"
 
@@ -25,8 +25,9 @@ def run(playwright, config: Config):
         with page.expect_navigation() as response_info:
             page.click("button[id='kc-login']")
             page.wait_for_url(config.redirect_url, timeout=5000)
-    except:
+    except Exception as e:
         print("[ERROR] Login failed! Timeout!")
+        print(e)
         exit(1)
     response = response_info.value
     if response.status != 200:
