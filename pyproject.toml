@@ -1,0 +1,3 @@
+[project]
+name = "login-endpoint-tester"
+version = "1.0.5"
