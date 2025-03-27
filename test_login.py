@@ -1,8 +1,9 @@
 import json
 
-from playwright.sync_api import sync_playwright, expect # type: ignore
+from playwright.sync_api import sync_playwright, Playwright # type: ignore
 
 CONFIG_PATH = "config/config.json"
+PAGE_LOAD_TIMEOUT = 10000
 
 
 class Config:
@@ -14,17 +15,19 @@ class Config:
         self.password = config["password"]
 
 
-def run(playwright, config: Config):
+def run(playwright: Playwright, config: Config):
     browser = playwright.chromium.launch(headless=True)
     context = browser.new_context()
     page = context.new_page()
     try:
         page.goto(config.login_url)
+        page.wait_for_selector("input[name='username']", timeout=PAGE_LOAD_TIMEOUT)
+        page.wait_for_selector("input[name='password']", timeout=PAGE_LOAD_TIMEOUT)
         page.fill("input[name='username']", config.username)
         page.fill("input[name='password']", config.password)
         with page.expect_navigation() as response_info:
             page.click("button[id='kc-login']")
-            page.wait_for_url(config.redirect_url, timeout=5000)
+            page.wait_for_url(config.redirect_url, timeout=PAGE_LOAD_TIMEOUT)
     except Exception as e:
         print("[ERROR] Login failed! Timeout!")
         print(e)
