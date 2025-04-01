@@ -1,4 +1,4 @@
-import json
+import json, time
 
 from playwright.sync_api import sync_playwright, Playwright # type: ignore
 
@@ -38,6 +38,7 @@ def run(playwright: Playwright, config: Config):
                 print("[ERROR] Login failed!")
                 exit(1)
             browser.close()
+            time.sleep(PAGE_LOAD_TIMEOUT / 1000)
 
     response = response_info.value
     if response.status != 200:
